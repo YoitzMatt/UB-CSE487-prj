@@ -73,7 +73,7 @@ def drawAE(input, filterAmbience):
     framesToTime = librosa.frames_to_time(frames, hop_length=512)
     plt.figure(figsize=(8, 4))
     librosa.display.waveshow(audioArray, alpha=0.5)
-    plt.title("Amplitude Envelope")
+    plt.title("Amplitude Envelope: " + input)
     plt.ylabel("Amplitude")
     plt.ylim((-1, 1))
     plt.plot(framesToTime, AE, color="r")
@@ -93,7 +93,7 @@ def drawRMSE(input, filterAmbience=False):
     framesToTime = librosa.frames_to_time(frames, hop_length=512)
     plt.figure(figsize=(8, 4))
     librosa.display.waveshow(audioArray, alpha=0.5)
-    plt.title("Root Mean Square Energy")
+    plt.title("Root Mean Square Energy: " + input)
     plt.ylabel("Amplitude")
     plt.ylim((-1, 1))
     plt.plot(framesToTime, rms, color="r")
@@ -111,7 +111,7 @@ def drawZCR(input, filterAmbience=False):
     frames = range(0, math.ceil(len(audioArray)/512))
     framesToTime = librosa.frames_to_time(frames, hop_length=512)
     plt.figure(figsize=(8, 4))
-    plt.title("Zero Crossing Rate of Joe Biden")
+    plt.title("Zero Crossing Rate: " + input)
     plt.ylim((0, 400))
     plt.plot(framesToTime, zcr*FRAME_LENGTH, color="r") #multiply by FRAME_SIZE to get non-normalized value
     plt.show()
@@ -133,7 +133,7 @@ def drawMFCC(input, filterAmbience=False):
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(mfcc20, x_axis="time", sr=sampleRate)
     plt.ylabel("MFCCs")
-    plt.title("MFCC Values")
+    plt.title("MFCC Values: " + input)
     clb = plt.colorbar(format="%+2.f")
     clb.ax.set_xlabel("shape")
     #higher shape = louder/bass
@@ -151,6 +151,7 @@ def drawSC(input, filterAmbience=False):
     SC = librosa.feature.spectral_centroid(y=audioArray, sr=sampleRate, n_fft=FRAME_LENGTH, hop_length=HOP_LENGTH)[0]
     plt.figure(figsize=(10, 4))
     plt.plot(framesToTime, SC)
+    plt.title("Spectral Centroid: " + input)
     plt.xlabel("Time")
     plt.ylabel("Spectral Mass")
     plt.show()
@@ -168,6 +169,7 @@ def drawSB(input, filterAmbience=False):
     SB = librosa.feature.spectral_bandwidth(y=audioArray, sr=sampleRate, n_fft=FRAME_LENGTH, hop_length=HOP_LENGTH)[0]
     plt.figure(figsize=(10, 4))
     plt.plot(framesToTime, SB)
+    plt.title("Spectral Bandwidth: " + input)
     plt.xlabel("Time")
     plt.ylabel("Frequency")
     #dipicts range/variance present in the current spectral centriod's frequencies
@@ -186,6 +188,7 @@ def drawSR(input, filterAmbience=False):
     SR = librosa.feature.spectral_rolloff(y=audioArray, sr=sampleRate, n_fft=FRAME_LENGTH, hop_length=HOP_LENGTH)[0]
     plt.figure(figsize=(10, 4))
     plt.plot(framesToTime, SR)
+    plt.title("Spectral Rolloff: " + input)
     plt.xlabel("Time")
     plt.ylabel("Frequencies")
     plt.show()
