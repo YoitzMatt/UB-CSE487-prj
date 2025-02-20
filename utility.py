@@ -72,13 +72,13 @@ def drawAE(input, filterAmbience=False):
     AE = amplitudeEnvelope(audioArray, FRAME_LENGTH, HOP_LENGTH)
     frames = range(0, math.ceil(len(audioArray)/512))
     framesToTime = librosa.frames_to_time(frames, hop_length=512)
+    graphName = input[input.index("/")+1:len(input)-4]
     plt.figure(figsize=(8, 4))
     librosa.display.waveshow(audioArray, alpha=0.5)
-    plt.title("Amplitude Envelope")
+    plt.title("Amplitude Envelope: " + graphName)
     plt.ylabel("Amplitude")
     plt.ylim((-1, 1))
     plt.plot(framesToTime, AE, color="r")
-    graphName = input[input.index("/")+1:len(input)-4]
     plt.savefig("Graphs/AmplitudeEnvelope/"+graphName+"-AE")
     
     #print average
@@ -93,13 +93,13 @@ def drawRMSE(input, filterAmbience=False):
     rms = librosa.feature.rms(y=audioArray, frame_length=FRAME_LENGTH, hop_length=HOP_LENGTH)[0]
     frames = range(0, math.ceil(len(audioArray)/512))
     framesToTime = librosa.frames_to_time(frames, hop_length=512)
+    graphName = input[input.index("/")+1:len(input)-4]
     plt.figure(figsize=(8, 4))
     librosa.display.waveshow(audioArray, alpha=0.5)
-    plt.title("Root Mean Square Energy")
+    plt.title("Root Mean Square Energy: " + graphName)
     plt.ylabel("Amplitude")
     plt.ylim((-1, 1))
     plt.plot(framesToTime, rms, color="r")
-    graphName = input[input.index("/")+1:len(input)-4]
     plt.savefig("Graphs/RootMeanSquareEnergy/"+graphName+"-RMSE")
     #print average
     print(np.average(rms))
@@ -113,11 +113,11 @@ def drawZCR(input, filterAmbience=False):
     zcr = librosa.feature.zero_crossing_rate(y=audioArray, frame_length=FRAME_LENGTH, hop_length=HOP_LENGTH)[0]
     frames = range(0, math.ceil(len(audioArray)/512))
     framesToTime = librosa.frames_to_time(frames, hop_length=512)
+    graphName = input[input.index("/")+1:len(input)-4]
     plt.figure(figsize=(8, 4))
-    plt.title("Zero Crossing Rate of Joe Biden")
+    plt.title("Zero Crossing Rate: " + graphName)
     plt.ylim((0, 800))
     plt.plot(framesToTime, zcr*FRAME_LENGTH, color="r") #multiply by FRAME_SIZE to get non-normalized value
-    graphName = input[input.index("/")+1:len(input)-4]
     plt.savefig("Graphs/ZeroCrossingRate/"+graphName+"-ZCR")
     #print average
     print(np.average(zcr*FRAME_LENGTH))
@@ -134,15 +134,15 @@ def drawMFCC(input, filterAmbience=False):
     for i in range(len(mfcc20)):
         print("MFCC"+str(i+1) + ": " + str(np.average(mfcc20[i])) + "\n")
 
+    graphName = input[input.index("/")+1:len(input)-4]
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(mfcc20, x_axis="time", sr=sampleRate)
     plt.ylabel("MFCCs")
-    plt.title("MFCC Values")
+    plt.title("MFCC Values: " + graphName)
     clb = plt.colorbar(format="%+2.f")
     clb.ax.set_xlabel("dB")
     #higher shape = louder/bass
     #lower shape = queiter/soprano
-    graphName = input[input.index("/")+1:len(input)-4]
     plt.savefig("Graphs/MFCC/"+graphName+"-MFCC")
     
 #plot spectral centroid
@@ -154,12 +154,12 @@ def drawSC(input, filterAmbience=False):
     frames = range(0, math.ceil(len(audioArray)/512))
     framesToTime = librosa.frames_to_time(frames, hop_length=512)
     SC = librosa.feature.spectral_centroid(y=audioArray, sr=sampleRate, n_fft=FRAME_LENGTH, hop_length=HOP_LENGTH)[0]
+    graphName = input[input.index("/")+1:len(input)-4]
     plt.figure(figsize=(10, 4))
     plt.plot(framesToTime, SC)
-    plt.title("Spectral Centroid")
+    plt.title("Spectral Centroid: " + graphName)
     plt.xlabel("Time")
     plt.ylabel("Spectral Mass")
-    graphName = input[input.index("/")+1:len(input)-4]
     plt.savefig("Graphs/SpectralCentroid/"+graphName+"-SC")
     #print average
     print(np.average(SC))
@@ -173,13 +173,13 @@ def drawSB(input, filterAmbience=False):
     frames = range(0, math.ceil(len(audioArray)/512))
     framesToTime = librosa.frames_to_time(frames, hop_length=512)
     SB = librosa.feature.spectral_bandwidth(y=audioArray, sr=sampleRate, n_fft=FRAME_LENGTH, hop_length=HOP_LENGTH)[0]
+    graphName = input[input.index("/")+1:len(input)-4]
     plt.figure(figsize=(10, 4))
     plt.plot(framesToTime, SB)
-    plt.title("Spectral Bandwidth")
+    plt.title("Spectral Bandwidth: "+ graphName)
     plt.xlabel("Time")
     plt.ylabel("Frequency")
     #dipicts range/variance present in the current spectral centriod's frequencies
-    graphName = input[input.index("/")+1:len(input)-4]
     plt.savefig("Graphs/SpectralBandWidth/"+graphName+"-SB")
     #print average
     print(np.average(SB))
@@ -193,13 +193,13 @@ def drawSR(input, filterAmbience=False):
     frames = range(0, math.ceil(len(audioArray)/512))
     framesToTime = librosa.frames_to_time(frames, hop_length=512)
     SR = librosa.feature.spectral_rolloff(y=audioArray, sr=sampleRate, n_fft=FRAME_LENGTH, hop_length=HOP_LENGTH)[0]
+    graphName = input[input.index("/")+1:len(input)-4]
     plt.figure(figsize=(10, 4))
     plt.plot(framesToTime, SR)
-    plt.title("Spectral Rolloff")
+    plt.title("Spectral Rolloff: " + graphName)
     plt.xlabel("Time")
     plt.ylabel("Frequencies")
 
-    graphName = input[input.index("/")+1:len(input)-4]
     plt.savefig("Graphs/SpectralRolloff/"+graphName+"-SR")
     # print average
     print(np.average(SR))
@@ -219,5 +219,3 @@ def drawAll():
         drawSC("AudioData/"+filename, fa)
         drawSR("AudioData/"+filename, fa)
         drawZCR("AudioData/"+filename, fa)
-
-drawAll()
